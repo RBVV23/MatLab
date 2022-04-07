@@ -1,0 +1,52 @@
+clc
+clear all
+close all
+rng(0);
+
+% A=[1 1 1 1 1 1 1; 1 1 0 1 1 1 1; 1 1 1 0 1 0 1; 1 1 1 1 1 1 1; 1 1 1 0 1 1 1; 1 1 1 1 1 0 1; 1 1 1 1 1 1 1]
+
+
+prefix='images\';
+class='face';
+number=1;
+filename=strcat(prefix,class,num2str(number),'.bmp');
+picture=imread(filename, 'bmp');
+
+k=1;
+h(k)=figure;
+image(picture)
+
+
+newpicture=single(rgb2gray(picture));
+k=k+1;
+h(k)=figure;
+image(newpicture)
+colormap gray(256)
+
+pict_vect=matrix2vector(newpicture);
+K=5;
+[pict_vect noise_vect]=myGARM_NOISE(pict_vect,K);
+noisepicture=vector2matrix(pict_vect, picture);
+noise_matr=vector2matrix(noise_vect, picture);
+
+
+k=k+1;
+h(k)=figure;
+image(noisepicture)
+colormap gray(256)
+
+S_pict=abs(fftshift(fft2(newpicture)));
+S_noise=abs(fftshift(fft2(noise_matr)));
+S_npict=abs(fftshift(fft2(noisepicture)));
+
+k=k+1;
+h(k)=figure('name', 'Without noise');
+surf(log(S_pict))
+
+k=k+1;
+h(k)=figure('name', 'Only noise');
+surf(log(S_noise))
+
+k=k+1;
+h(k)=figure('name', 'With noise');
+surf(log(S_npict))
