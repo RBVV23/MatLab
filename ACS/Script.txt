@@ -1,0 +1,26 @@
+T=1.e-3; 
+wp=1/T;
+    wbeg=0.01;
+        wend=1.e6;
+    Noct=10;
+    w0=wbeg;
+    k=1;
+    while (w0<wend); %%%
+            dw=9*w0/Noct;
+        for j=0:Noct-1, %%%
+            w(k)=w0+j*dw;
+          k=k+1;
+        end
+    w0=10*w0;    
+    end
+s=w*sqrt(-1);
+H=Haper(T, s);
+    figure('Name','ËÀ×Õ')
+    loglog(w, abs(H), '-r')
+    hold on
+        loglog(w,1,'g*')
+    
+    figure('Name','Ô×Õ')
+    semilogx(w, angle(H), '-r');
+    grid on
+hold on
