@@ -1,0 +1,5 @@
+function H=Haper(T, s)
+%   Transger function of aperiodic block
+H=1./(1+T*s)
+end
+
